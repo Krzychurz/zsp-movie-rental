@@ -9,11 +9,8 @@
 <body>
     <?php
         $in = false;
-        $con = new mysqli("localhost","root","","mydb");
         $sql = "SELECT id, username, is_admin, password FROM users";
-        $res = $con->query($sql);
-        $row = $res->fetch_all(MYSQLI_ASSOC);
-        session_start();
+        include 'header.php';
         if(isset($_SESSION['id']))
         {
             echo "<p>Zalogowano jako ";
@@ -25,9 +22,20 @@
                     $in = true;
                 }
                 echo "
-                <form action='".session_destroy()."'>
-                    <input type='submit' value='Wyloguj'>
+                <form method='POST'>
+                    <input type='submit' value='Wyloguj' name='logout'>
                 </form>";
+                echo "
+                <form action='movie-add.php'>
+                    <input type='submit' value='Dodaj film' name='add'>
+                </form>";
+                if(isset($_POST['logout']))
+                {
+                    session_destroy();
+                    header("refresh: 0");
+                }
+                if($in)
+                    break;
             }
         }
         if($in == false)
@@ -36,16 +44,16 @@
                 echo "
                 <form action='login.php'>
                     <input type='submit' value='Zaloguj'>
+                </form>
+                <form action='register.php'>
+                <input type='submit' value='Rejestruj'>
                 </form>";
             }
         $con->close();
     ?>
-    <form action="register.php">
-        <input type="submit" value="Rejestruj">
-    </form>
     <form action="movie-search.php" method="GET">
         Wyszukaj film:
-        <input type="text" name="tytul">
+        <input type="text" name="title">
         <input type="submit" value="Znajdź">
     </form>
 </body>

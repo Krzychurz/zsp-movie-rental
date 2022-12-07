@@ -14,7 +14,7 @@
         $sql = "SELECT id, username, is_admin, password FROM users";
         $res = $con->query($sql);
         $row = $res->fetch_all(MYSQLI_ASSOC);
-
+        $x=false;
         for($i=0;$i<count($row);$i++)
         {
             if($_POST['login']==$row[$i]['username'] && $_POST['pass']==$row[$i]['password'])
@@ -22,6 +22,11 @@
                 session_start();
                 $_SESSION['id'] = $row[$i]['id'];
                 header('location: index.php');
+            }
+            elseif($x==false)
+            {
+                echo"<p>Podaj odpowiednie dane</p>";
+                $x=true;
             }
         }
         $con->close();
