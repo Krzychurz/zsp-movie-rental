@@ -10,7 +10,9 @@
     <?php
         $in = false;
         $sql = "SELECT id, username, is_admin, password FROM users";
+        session_start();
         include 'header.php';
+        $row=$res->fetch_all(MYSQLI_ASSOC);
         if(isset($_SESSION['id']))
         {
             echo "<p>Zalogowano jako ";
@@ -32,7 +34,7 @@
                 if(isset($_POST['logout']))
                 {
                     session_destroy();
-                    header("refresh: 0");
+                    header("location: logout.php");
                 }
                 if($in)
                     break;

@@ -5,11 +5,11 @@
     <title>Rejestracja</title>
 </head>
 <body>
-    <form method="POST">
-        Podaj login:
-        <input type="text" name="login"><br>
-        Podaj hasło:
-        <input type="password" name="pass">
+    <p>
+        Użytkownik został wylogowany
+    </p>
+    <form action="index.php">
+        <input type='submit' value='Powrót do menu głównego'>
     </form>
 </body>
 </html>
