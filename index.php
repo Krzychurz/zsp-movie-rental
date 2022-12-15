@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Strona główna</title>
+    <link rel='stylesheet' href='style.css'>
 </head>
 
 <body>
@@ -11,26 +12,52 @@
         $in = false;
         $sql = "SELECT id, username, is_admin, password FROM users";
         session_start();
-        include 'header.php';
+        $con = new mysqli("localhost","root","","mydb");
+        $res = $con->query($sql);
         $row=$res->fetch_all(MYSQLI_ASSOC);
         if(isset($_SESSION['id']))
         {
             echo "<p>Zalogowano jako ";
             for($i=0;$i<count($row);$i++)
             {
-                if($_SESSION['id'] == $row[$i]['id'])
+                if($_SESSION['id'] == $row[$i]['id'] && $row[$i]['is_admin'] == false)
                 {
                     echo $row[$i]['username']."</p>";
                     $in = true;
+                    echo "
+                    <form method='POST'>
+                        <input type='submit' value='Wyloguj' name='logout'>
+                    </form>";
+                    echo "
+                    <form action='movie-list.php'>
+                        <input type='submit' value='Lista filmów'>
+                    </form>";
+                    echo "
+                    <form action='movie-add.php'>
+                        <input type='submit' value='Dodaj film'>
+                    </form>";
+                    echo "
+                    <form action='movie-my.php'>
+                        <input type='submit' value='Moje filmy'>
+                    </form>";
                 }
-                echo "
-                <form method='POST'>
-                    <input type='submit' value='Wyloguj' name='logout'>
-                </form>";
-                echo "
-                <form action='movie-add.php'>
-                    <input type='submit' value='Dodaj film' name='add'>
-                </form>";
+                else if($_SESSION['id'] == $row[$i]['id'] && $row[$i]['is_admin'] == true)
+                {
+                    echo $row[$i]['username']."</p>";
+                    $in = true;
+                    echo "
+                    <form method='POST'>
+                        <input type='submit' value='Wyloguj' name='logout'>
+                    </form>";
+                    echo "
+                    <form action='movie-list.php'>
+                        <input type='submit' value='Lista filmów'>
+                    </form>";
+                    echo "
+                    <form action='movie-my.php'>
+                        <input type='submit' value='Moje filmy'>
+                    </form>";
+                }
                 if(isset($_POST['logout']))
                 {
                     session_destroy();

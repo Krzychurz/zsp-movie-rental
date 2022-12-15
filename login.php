@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel='stylesheet' href='style.css'>
 </head>
 
 <body>
@@ -21,6 +22,8 @@
             {
                 session_start();
                 $_SESSION['id'] = $row[$i]['id'];
+                if($row[$i]['is_admin'] == true)
+                    $_SESSION['admin'] = true;
                 header('location: index.php');
             }
             elseif($x==false)

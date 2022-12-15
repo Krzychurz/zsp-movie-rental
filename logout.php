@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Rejestracja</title>
+    <link rel='stylesheet' href='style.css'>
 </head>
 <body>
     <p>
